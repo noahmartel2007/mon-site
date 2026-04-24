@@ -1,0 +1,52 @@
+<div class="mb-card">
+    <h2>📋 Registre des Étudiants | CIEL 2027</h2>
+    
+    <table style="width: 100%; border-collapse: collapse; color: white; text-align: left;">
+        <thead>
+            <tr style="border-bottom: 1px solid #444; color: #A8A9AD; text-transform: uppercase; font-size: 0.8rem;">
+                <th style="padding: 15px;">Nom</th>
+                <th style="padding: 15px;">Prénom</th>
+                <th style="padding: 15px;">Email</th>
+            </tr>
+        </thead>
+        <tbody id="tableau">
+            <tr>
+                <td colspan="3" style="padding: 20px; text-align: center; color: #555;">Initialisation du système...</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Correction de 'DOMContentloaded' en 'DOMContentLoaded' (L majuscule)
+    document.addEventListener('DOMContentLoaded', function() {
+        var req;
+        req = new XMLHttpRequest();
+        
+        // Correction du point-virgule 'req;open' en 'req.open'
+        req.open("GET", 'http://192.168.1.224/ciel2027/api/etudiants.php', true);
+        req.send();
+
+        req.onload = function() {
+            // On vérifie si le serveur a bien répondu
+            if (req.status === 200) {
+                var json = JSON.parse(req.responseText);
+                var html = "";
+
+                json.forEach(function(val) {
+                    // Correction de '<trv>' en '<tr>' (Table Row)
+                    html += "<tr style='border-bottom: 1px solid rgba(255,255,255,0.05);'>";
+                    html += "<td style='padding: 15px;'>" + val['nom'] + "</td>";
+                    html += "<td style='padding: 15px; color: #A8A9AD;'>" + val['prenom'] + "</td>";
+                    html += "<td style='padding: 15px; color: #00ADEF;'>" + val['email'] + "</td>";
+                    html += "</tr>"; // Correction de '</trv>' en '</tr>'
+                });
+
+                // Correction de 'getElementBYID' en 'getElementById'
+                document.getElementById('tableau').innerHTML = html;
+            } else {
+                document.getElementById('tableau').innerHTML = "<tr><td colspan='3' style='padding:20px; color:red;'>Erreur de chargement.</td></tr>";
+            }
+        };
+    });
+</script>
